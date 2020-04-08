@@ -14,6 +14,8 @@ const insert = require('gulp-insert');
 const template = require('gulp-template');
 const packageJson = require('./package.json');
 
+const sourcemaps = require('gulp-sourcemaps');
+
 // Clean lib folder.
 gulp.task('clean', require('del').bind(null, ['dist', 'lib']));
 
@@ -32,14 +34,18 @@ gulp.task('babel', gulp.series('eslint', function babelTask() {
     .pipe(FormioFilter)
     .pipe(replace('---VERSION---', packageJson.version))
     .pipe(FormioFilter.restore)
+    .pipe(sourcemaps.init())
     .pipe(babel())
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('lib'));
 }));
 
 // Run babel without linting
 gulp.task('babel-nolint', gulp.series(function babelTask() {
   return gulp.src(['./src/**/*.js', '!./src/**/*.spec.js'])
+    .pipe(sourcemaps.init())
     .pipe(babel())
+    .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('lib'));
 }));
 
