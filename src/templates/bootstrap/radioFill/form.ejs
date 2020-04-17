@@ -23,7 +23,7 @@
         <span>{{ctx.t(item.label)}}</span>
         {% } %}
       </label>
-      {% if (item.isFill.yes) { %}
+      {% if (item.isFill && item.isFill.yes) { %}
       <input type="text" class="formio-component-radio-fill-input" ref="inputFill" id="{{ctx.id}}{{ctx.row}}-{{item.value}}-fill" />
       {% } %}
     </div>

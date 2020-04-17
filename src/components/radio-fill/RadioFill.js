@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import Field from '../_classes/field/Field';
 
 export default class RadioFillComponent extends Field {
@@ -110,54 +109,37 @@ export default class RadioFillComponent extends Field {
       }
       value.push({
         value: input.value,
-        checked: true,
+        checked: input.checked,
         fillValue: fillValue
       });
     });
     return value;
   }
 
-  getValueAsString(value) {
-    if (!value) {
-      return '';
-    }
-    if (!_.isString(value)) {
-      return _.toString(value);
-    }
-
-    const option = _.find(this.component.values, (v) => v.value === value);
-
-    return _.get(option, 'label', '');
-  }
-
   setValue(value, flags = {}) {
     const changed = this.updateValue(value, flags);
-    if (this.componentModal && flags && flags.fromSubmission) {
-      this.componentModal.setValue(value);
-    }
+
     value = this.dataValue;
     if (!this.hasInput) {
       return changed;
     }
     const isArray = Array.isArray(value);
-    // if (
-    //   isArray &&
-    //   Array.isArray(this.defaultValue) &&
-    //   this.refs.hasOwnProperty('input') &&
-    //   this.refs.input &&
-    //   (this.refs.input.length !== value.length)
-    // ) {
-    //   this.redraw();
-    // }
-    // debugger;
-    // this.refs.input.forEach((input) => {
-
-    // });
-    // for (const i in this.refs.input) {
-    //   if (this.refs.input.hasOwnProperty(i)) {
-    //     this.setValueAt(i, isArray ? value[i] : value, flags);
-    //   }
-    // }
+    if (isArray && value.length > 0) {
+      this.refs.input.forEach((input) => {
+        const inputValue = input.value;
+        const findValue = value.find( val => {
+          return val.value === inputValue;
+        });
+        if (findValue) {
+          const fillId = `${input.id}-fill`;
+          const fill = document.getElementById(fillId);
+          if (fill) {
+            fill.value = findValue.fillValue || '';
+          }
+          input.checked = !!findValue.checked;
+        }
+      });
+    }
     return changed;
   }
 
