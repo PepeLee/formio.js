@@ -206,7 +206,12 @@ gulp.task('build', gulp.series(
   'types',
   'readme'
 ));
-
+// Create a new build.
+gulp.task('lbb', gulp.series(
+  'babel',
+  'templates',
+  'package-version'
+));
 // Create a new build (scripts only)
 gulp.task('rebuild-scripts', gulp.series(
   'babel-nolint',
@@ -221,6 +226,9 @@ gulp.task('rebuild-scripts', gulp.series(
   'dist',
   'types'
 ));
+
+// Watch for lbb
+gulp.task('watch-lbb', () => gulp.watch(['./src/*.js', './src/**/*.js'], gulp.series('lbb')));
 
 // Watch for changes.
 gulp.task('watch-rebuild', () => gulp.watch(['./src/*.js', './src/**/*.js'], gulp.series('rebuild-scripts')));

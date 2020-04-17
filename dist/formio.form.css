@@ -988,3 +988,12 @@ div[data-oembed-url] {
   margin-bottom: 10px; }
   .formio-component-modal-wrapper .component-rendering-hidden {
     visibility: hidden; }
+
+.formio-component-radio-fill-input {
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  margin-left: 4px;
+  position: relative;
+  top: 1px;
+  outline: none; }

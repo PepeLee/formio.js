@@ -58,7 +58,6 @@ export default class Webform extends NestedDataComponent {
   /* eslint-disable max-statements */
   constructor() {
     let element, options;
-    debugger;
     if (arguments[0] instanceof HTMLElement || arguments[1]) {
       element = arguments[0];
       options = arguments[1];
