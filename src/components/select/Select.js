@@ -1009,7 +1009,7 @@ export default class SelectComponent extends Field {
 
     if (notFoundValuesToAdd.length) {
       if (this.choices) {
-        this.choices.setChoices(notFoundValuesToAdd, 'value', 'label', true);
+        this.choices.setChoices(notFoundValuesToAdd, 'value', 'label');
       }
       else {
         notFoundValuesToAdd.map(notFoundValue => {
@@ -1085,13 +1085,12 @@ export default class SelectComponent extends Field {
     }
 
     const dataType = this.component['dataType'] || 'auto';
-    const denormalizedValue = typeof value === 'string' ? value.toLowerCase() : value;
     const normalize = {
-      value: denormalizedValue,
+      value: value,
 
       toNumber() {
         try {
-          const numberValue = parseFloat(this.value);
+          const numberValue = Number(this.value);
 
           if (!Number.isNaN(numberValue) && isFinite(numberValue)) {
             this.value = numberValue;
@@ -1107,10 +1106,11 @@ export default class SelectComponent extends Field {
 
       toBoolean() {
         try {
-          const booleanValue = (this.value === 'true' || this.value === 'false');
+          const value = this.value.toLowerCase();
+          const booleanValue = (value === 'true' || value === 'false');
 
           if (booleanValue) {
-            this.value = (this.value === 'true');
+            this.value = (value === 'true');
             return this;
           }
 
